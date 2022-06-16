@@ -1,5 +1,5 @@
-import { Dialog } from '@headlessui/react';
-import { useRef, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { useRef, useState, Fragment } from 'react';
 import { useAuthState } from '~/components/contexts/UserContext';
 import { SignInButton } from '~/components/domain/auth/SignInButton';
 import { SignOutButton } from '~/components/domain/auth/SignOutButton';
@@ -70,28 +70,40 @@ function Index() {
           </div>
         </div>
       </div>
-      <Dialog
-        className="flex fixed inset-0 z-10 overflow-y-auto"
-        initialFocus={completeButtonRef}
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-      >
-        <div className="flex items-center justify-center min-h-screen w-screen">
-          <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
-          <div className="relative bg-white rounded max-w-120 p-8 mx-auto">
-            <Dialog.Title>Dialog Title</Dialog.Title>
-            <Dialog.Description>Dialog description</Dialog.Description>
-            <button
-              ref={completeButtonRef}
-              type="button"
-              className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-              onClick={() => setIsOpen(false)}
+      <Transition show={isOpen} as={Fragment}>
+        <Dialog
+          className="flex fixed inset-0 z-10 overflow-y-auto"
+          initialFocus={completeButtonRef}
+          // open={isOpen}
+          onClose={() => setIsOpen(false)}
+        >
+          <div className="flex items-center justify-center min-h-screen w-screen">
+            <Dialog.Overlay className="fixed inset-0 bg-accent opacity-30" />
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
             >
-              Got it, thanks!
-            </button>
+              <div className="relative bg-neutral rounded max-w-120 p-8 mx-auto text-accent">
+                <Dialog.Title>Dialog Title</Dialog.Title>
+                <Dialog.Description>Dialog description</Dialog.Description>
+                <button
+                  ref={completeButtonRef}
+                  type="button"
+                  className="inline-flex justify-center px-4 py-2 text-sm font-medium text-base-900 bg-base-100 border border-transparent rounded-md hover:bg-base-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Got it, thanks!
+                </button>
+              </div>
+            </Transition.Child>
           </div>
-        </div>
-      </Dialog>
+        </Dialog>
+      </Transition>
     </>
   );
 }

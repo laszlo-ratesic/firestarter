@@ -24,8 +24,12 @@ module.exports = {
     require('daisyui'),
   ],
   daisyui: {
+    styled: true,
+    base: true,
+    utils: true,
     themes: [
-      'emerald'
+      'cyberpunk',
+      'synthwave'
     ],
   }
 }
